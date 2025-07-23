@@ -12,10 +12,10 @@ RUN wget http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/faSomeRecords
 RUN wget http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/faSize
 RUN chmod 775 *
 WORKDIR /HOME
-RUN git clone https://github.com/yatisht/usher.git 
-WORKDIR usher
+RUN git clone https://github.com/IRS-Project/soar-usher.git
+WORKDIR soar-usher
 ## Checkout latest release
 #RUN git checkout $(git describe --tags `git rev-list --tags --max-count=1`)
 RUN ./install/installUbuntu.sh 
 ## set the path
-ENV PATH="/HOME/usher/build:/HOME/kentsource:${PATH}"
+ENV PATH="/HOME/soar-usher/build:/HOME/kentsource:${PATH}"
