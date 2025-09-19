@@ -1,21 +1,24 @@
-FROM ubuntu:22.04
-ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=DontWarn
-ENV DEBIAN_FRONTEND=noninteractive
-USER root
-RUN apt-get update && apt-get install -yq --no-install-recommends \
-    git wget \
+# ============================
+# SOAR USHER DOCKER IMAGE
+# ============================
+FROM python:3.10-slim-bookworm
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    python3-dev \
+    git \
+    wget \
     ca-certificates \
-    sudo python3 python3-pip
-# faSomeRecords and faSize are needed for the UShER WDL workflow 
-WORKDIR /HOME/kentsource
-RUN wget http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/faSomeRecords
-RUN wget http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/faSize
-RUN chmod 775 *
+    sudo
+
 WORKDIR /HOME
 RUN git clone https://github.com/IRS-Project/soar-usher.git
 WORKDIR soar-usher
-## Checkout latest release
-#RUN git checkout $(git describe --tags `git rev-list --tags --max-count=1`)
-RUN ./install/installUbuntu.sh 
-## set the path
-ENV PATH="/HOME/soar-usher/build:/HOME/kentsource:${PATH}"
+RUN ./install/installUbuntu.sh
+
+WORKDIR /HOME/soar-usher/build
+RUN wget http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/faSomeRecords \
+    && wget http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/faSize \
+    && chmod +x faSomeRecords faSize
+
+ENV PATH="/HOME/soar-usher/build:${PATH}"
