@@ -5,16 +5,11 @@ FROM python:3.10-slim-bookworm
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    postgresql-client \
-    gcc \
     python3-dev \
-    libpq-dev \
     git \
     wget \
-    build-essential \
     ca-certificates \
-    sudo \
-    && rm -rf /var/lib/apt/lists/*
+    sudo
 
 WORKDIR /HOME
 RUN git clone https://github.com/IRS-Project/soar-usher.git
