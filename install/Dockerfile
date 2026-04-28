@@ -21,4 +21,8 @@ RUN wget http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/faSomeRecords \
     && wget http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/faSize \
     && chmod +x faSomeRecords faSize
 
+RUN wget -q "https://github.com/nextstrain/nextclade/releases/download/v3.21.1/nextclade-x86_64-unknown-linux-musl" \
+    -O /HOME/soar-usher/build/nextclade \
+    && chmod +x /HOME/soar-usher/build/nextclade
+
 ENV PATH="/HOME/soar-usher/build:${PATH}"
